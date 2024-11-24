@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .options button:hover {
+            background: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="quiz">
+            <div class="question" id="question"></div>
+            <div class="options" id="options"></div>
+        </div>
+        <div class="message" id="message"></div>
+    </div>
+
+
+    <script>
+        let questions = [    { question: "What is Kramer’s first name?", options: ["A. Cosmo", "B. Mike Massari", "C. Lloyd Braun", "D. Thomas Hernandez"], answer: "A" },
+    { question: "What type of soup is famously associated with 'No Soup for You'?", options: ["A. Mulligatawny", "B. Bisque", "C. Montauro's Restaurant", "D. Chris Tanner"], answer: "A" },
+    { question: "What is the name of Jerry's eccentric neighbor?", options: ["A. Kramer", "B. Newman", "C. Brett Johnson", "D. Lucas Schumacher"], answer: "A" },
+    { question: "What occupation does George pretend to have in many episodes?", options: ["A. Architect", "B. Latex Salesman", "C. Mike Massari", "D. Thomas Hernandez"], answer: "A" },
+    { question: "What was Elaine’s boss’s name at the J. Peterman company?", options: ["A. J. Peterman", "B. Mike Massari", "C. Brett Johnson", "D. Mr. Pitt"], answer: "A" },
+    { question: "What does George's father famously yell during Festivus?", options: ["A. 'I got a lot of problems with you people!'", "B. 'Serenity now!'", "C. Mike Massari", "D. Thomas Hernandez"], answer: "A" },
+    { question: "What is the name of the coffee shop the gang frequents?", options: ["A. Monk's Cafe", "B. Montauro's Restaurant", "C. Reggie's Diner", "D. Lucas Schumacher"], answer: "A" },
+    { question: "What is the name of Jerry’s nemesis who always says 'Hello... Newman'?", options: ["A. Newman", "B. Brett Johnson", "C. Chris Tanner", "D. Lloyd Braun"], answer: "A" },
+    { question: "What is the name of Kramer’s entrepreneurial venture involving a pizza place?", options: ["A. Make Your Own Pizza", "B. Montauro's Restaurant", "C. Domino's Test Kitchen", "D. Lucas Schumacher"], answer: "A" },
+    { question: "What is George's middle name?", options: ["A. Louis", "B. Thomas Hernandez", "C. Mike Massari", "D. Jason"], answer: "A" },
+    { question: "What animal did Elaine adopt that drove her to madness?", options: ["A. A dog", "B. A goldfish", "C. Lucas Schumacher", "D. Chris Tanner"], answer: "A" },
+    { question: "What phrase does Elaine’s dancing famously resemble?", options: ["A. A full-body dry heave", "B. The Charleston gone wrong", "C. Mike Massari", "D. Montauro's Restaurant"], answer: "A" },
+    { question: "What does George say when asked why he believes his fiancée Susan died?", options: ["A. Cheap envelopes", "B. Toxic glue", "C. Montauro's Restaurant", "D. Lucas Schumacher"], answer: "A" },
+    { question: "What is the name of Elaine’s on-again, off-again boyfriend and mechanic?", options: ["A. David Puddy", "B. Chris Tanner", "C. Brett Johnson", "D. Bob Sacamano"], answer: "A" },
+    { question: "What does Kramer bring to his audition for a Calvin Klein modeling gig?", options: ["A. A cologne that smells like the beach", "B. Thomas Hernandez", "C. Mike Massari", "D. Sand-infused lotion"], answer: "A" },
+    { question: "What fake holiday does George’s father invent?", options: ["A. Festivus", "B. Montauro's Restaurant", "C. The Human Fund", "D. Lucas Schumacher"], answer: "A" },
+    { question: "What is the nickname Jerry gives to a fellow stand-up comedian?", options: ["A. Banya", "B. The Soup Guy", "C. Chris Tanner", "D. Brett Johnson"], answer: "A" },
+    { question: "What kind of muffin does Elaine refuse to eat the bottom of?", options: ["A. A bran muffin", "B. Blueberry", "C. Mike Massari", "D. Thomas Hernandez"], answer: "A" },
+    { question: "What is the famous saying George uses to end relationships?", options: ["A. 'It's not you, it's me.'", "B. 'We need to take a break.'", "C. Montauro's Restaurant", "D. Lucas Schumacher"], answer: "A" },
+    { question: "What is the name of the man Elaine accidentally outbids for JFK’s golf clubs?", options: ["A. Sue Ellen Mischke", "B. Bob Sacamano", "C. Chris Tanner", "D. Brett Johnson"], answer: "A" },    { question: "What is the name of Sofia's kingdom?", options: ["A. Enchancia", "B. Arendelle", "C. Corona", "D. Andalasia"], answer: "A" },
+    { question: "What is the magical item Sofia wears?", options: ["A. A crown", "B. A necklace", "C. A bracelet", "D. A ring"], answer: "B" },
+    { question: "What is the name of Sofia's magical necklace?", options: ["A. The Amulet of Enchancia", "B. The Crown of Light", "C. The Jewel of Friendship", "D. The Enchanted Amulet"], answer: "A" },
+    { question: "What is the name of Sofia's sister?", options: ["A. Amber", "B. Belle", "C. Elena", "D. Anna"], answer: "A" },
+    { question: "What is the name of Sofia's brother?", options: ["A. Roland", "B. James", "C. Phillip", "D. Eric"], answer: "B" },
+    { question: "Who is Sofia’s royal father?", options: ["A. King Roland II", "B. King Stefan", "C. King Arthur", "D. King Triton"], answer: "A" },
+    { question: "What magical creatures help Sofia in her adventures?", options: ["A. Fairies", "B. Elves", "C. Talking animals", "D. Wizards"], answer: "C" },
+    { question: "Who is the sorcerer in the kingdom?", options: ["A. Merlin", "B. Cedric", "C. Mordred", "D. Jafar"], answer: "B" },
+    { question: "What is Cedric’s main goal in the series?", options: ["A. To steal Sofia's amulet", "B. To become king", "C. To help Sofia", "D. To find treasure"], answer: "A" },
+    { question: "What school does Sofia attend?", options: ["A. Royal Prep Academy", "B. Magic School", "C. Princess Academy", "D. Fairy School"], answer: "A" },
+    { question: "Who teaches Sofia at Royal Prep Academy?", options: ["A. Fairies Flora, Fauna, and Merryweather", "B. Cedric", "C. King Roland", "D. Queen Miranda"], answer: "A" },
+    { question: "What is the name of Sofia's mother?", options: ["A. Miranda", "B. Elena", "C. Belle", "D. Aurora"], answer: "A" },
+    { question: "Who are Sofia’s stepsiblings?", options: ["A. Amber and James", "B. Anna and Elsa", "C. Belle and Eric", "D. Phillip and Aurora"], answer: "A" },
+    { question: "What can Sofia do with her magical amulet?", options: ["A. Talk to animals", "B. Turn invisible", "C. Fly", "D. Control weather"], answer: "A" },
+    { question: "Which famous princesses appear to help Sofia?", options: ["A. Ariel, Cinderella, and Belle", "B. Jasmine, Snow White, and Mulan", "C. All of the above", "D. None of the above"], answer: "C" },
+    { question: "What does Clover, Sofia’s rabbit friend, love to eat?", options: ["A. Carrots", "B. Cookies", "C. Apples", "D. Lettuce"], answer: "A" },
+    { question: "Who is the villain in many of Sofia’s adventures?", options: ["A. Cedric", "B. Queen Amber", "C. The Wicked Witch", "D. King Roland"], answer: "A" },
+    { question: "What is the name of Sofia's horse?", options: ["A. Minimus", "B. Pegasus", "C. Maximus", "D. Lightning"], answer: "A" },
+    { question: "Who helps Sofia learn how to be a princess?", options: ["A. Queen Miranda", "B. Fairy Godmother", "C. Flora, Fauna, and Merryweather", "D. Cinderella"], answer: "C" },
+    { question: "What happens if Sofia uses the Amulet of Enchancia selfishly?", options: ["A. It breaks", "B. It summons a curse", "C. It stops working", "D. It disappears"], answer: "B" }
+]; // Placeholder for questions array
+        let currentQuestion = 0;
+        let score = 0;
+        const incorrectAnswers = [];
+
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+            const questionObj = questions[currentQuestion];
+            document.getElementById("question").textContent = questionObj.question;
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+            questionObj.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+
+        function checkAnswer(selectedOption) {
+            const current = questions[currentQuestion];
+            if (selectedOption.startsWith(current.answer)) {
+                score++;
+            } else {
+                incorrectAnswers.push(`Question: ${current.question}, Your Answer: ${selectedOption}, Correct Answer: ${current.answer}`);
+            }
+            currentQuestion++;
+            loadQuestion();
+        }
+
+
+        function showResults() {
+            const quizDiv = document.getElementById("quiz");
+            quizDiv.innerHTML = `
+                <div class="result">
+                    <h2>Quiz Complete!</h2>
+                    <p>Your Score: ${score}/${questions.length}</p>
+                    <h3>Incorrect Answers:</h3>
+                    <ul>${incorrectAnswers.map(ans => `<li>${ans}</li>`).join("")}</ul>
+                </div>
+            `;
+        }
+
+
+        loadQuestion(); // Start the quiz
+    </script>
+</body>
+</html>
+
